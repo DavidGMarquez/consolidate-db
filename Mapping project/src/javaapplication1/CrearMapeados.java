@@ -49,10 +49,11 @@ class CrearMapeados {
     }
 
     private void crear(int i,int j) {
-         HashMap<String, Atributo> atributos = new HashMap<String, Atributo>();
-         atributos.putAll(this.entidades1.get(i).atributos);
-         atributos.putAll(this.entidades2.get(j).atributos);
-        EntidadFinal e=new EntidadFinal(this.entidades1.get(i).name,this.entidades2.get(j).name,this.entidades1.get(i).key,atributos);
+         HashMap<String, Atributo> atributos1 = new HashMap<String, Atributo>();
+         HashMap<String, Atributo> atributos2 = new HashMap<String, Atributo>();
+         atributos1.putAll(this.entidades1.get(i).atributos);
+         atributos2.putAll(this.entidades2.get(j).atributos);
+        EntidadFinal e=new EntidadFinal(this.entidades1.get(i).name,this.entidades2.get(j).name,this.entidades1.get(i).key,this.entidades2.get(j).key,atributos1,atributos2);
         this.entidadesFinales.entidadesfinales.add(e);
     }
 }
