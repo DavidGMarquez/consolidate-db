@@ -27,6 +27,16 @@ public class Atributo {
 
     }
 
+    void escribir() {
+        System.out.println("Nombre: "+this.name);
+        System.out.println("\tTipo: "+this.type);
+        System.out.println("\tOrder: "+this.order);
+        System.out.println("\tDatabase: "+this.database);
+        System.out.println("\tNombre tabla: "+this.table_name);
+
+
+    }
+
 
 
 }
