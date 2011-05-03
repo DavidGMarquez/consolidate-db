@@ -10,8 +10,11 @@ class Main
     public static void main(String[] args)
     {
        
-        createOntology createOntology1 = new createOntology("piadb", "root", "root");
-        createOntology createOntology2 = new createOntology("piaDbaux", "root", "root");
+        CrearEntidades entidades1 = new CrearEntidades("piadb", "root", "root");
+        CrearEntidades entidades2 = new CrearEntidades("piaDbaux", "root", "root");
+        CrearMapeados mapeado=new CrearMapeados(entidades1,entidades2);
+        mapeado.entidadesFinales.Escribir();
+        //Obtener resultado global
         
     }
 }
