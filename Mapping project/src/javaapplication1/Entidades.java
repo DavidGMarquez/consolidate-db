@@ -14,10 +14,12 @@ import java.util.ArrayList;
 public class Entidades {
 
     protected ArrayList<Entidad> entidades;
+    protected String nombre_schema;
 
-    public Entidades(){
+    public Entidades(String nombre_schema){
 
         this.entidades=new ArrayList();
+        this.nombre_schema=nombre_schema;
         
     }
 

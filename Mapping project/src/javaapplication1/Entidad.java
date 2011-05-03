@@ -32,9 +32,9 @@ public class Entidad {
     }
 
     void escribir() {
-        System.out.println("Nombre tabla:"+ this.name);
-        System.out.println("Primary key:"+ this.key);
-        System.out.println("Atributos:");
+        System.out.println("Nombre tabla: "+ this.name);
+        System.out.println("Primary key: "+ this.key);
+        System.out.println("Atributos: ");
      //   for (int i =1;i<this.attributes.size();i++){
        //     System.out.println( this.attributes.get(i));
         //}
