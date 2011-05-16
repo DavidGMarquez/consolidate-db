@@ -34,7 +34,6 @@ public class CrearEntidades {
             Statement s = conexion.createStatement();
             ResultSet rs = s.executeQuery("show tables");
 
-            int i = 1;
             while (rs.next()) {
 
                 if (debug) {

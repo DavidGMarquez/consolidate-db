@@ -37,7 +37,7 @@ class CrearMapeados {
                         char caracter = (char) System.in.read();
                         if(caracter=='s'){
                             System.out.println("Creando el mapping... ");
-                            this.crear(i,j);
+                            this.crearEntidadFinalDoble(i,j);
                         }
                     } catch (IOException ex) {
                         Logger.getLogger(CrearMapeados.class.getName()).log(Level.SEVERE, null, ex);
@@ -46,14 +46,15 @@ class CrearMapeados {
                 }
             }
         }
+
     }
 
-    private void crear(int i,int j) {
+    private void crearEntidadFinalDoble(int i,int j) {
          HashMap<String, Atributo> atributos1 = new HashMap<String, Atributo>();
          HashMap<String, Atributo> atributos2 = new HashMap<String, Atributo>();
          atributos1.putAll(this.entidades1.get(i).atributos);
          atributos2.putAll(this.entidades2.get(j).atributos);
-        EntidadFinal e=new EntidadFinal(this.entidades1.get(i).name,this.entidades2.get(j).name,this.entidades1.get(i).key,this.entidades2.get(j).key,atributos1,atributos2);
+        EntidadFinal e=new EntidadFinal(this.entidades1.get(i).name,this.entidades2.get(j).name,this.entidades1.get(i).key,this.entidades2.get(j).key,atributos1,atributos2,true);
         this.entidadesFinales.entidadesfinales.add(e);
     }
 }
