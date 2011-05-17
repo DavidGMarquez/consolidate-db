@@ -25,15 +25,19 @@ class GestorDeConsultas {
 
     void realizarConsulta() {
         String entidadIntroducida = this.obtenerEntidad();
+   //     ArrayList<String> atributosIntroducidos=this.obtenerAtributos(entidadIntroducida);
         ArrayList<String> atributosIntroducidos = this.obtenerAtributos(entidadIntroducida);
         this.ejecutarConsulta(entidadIntroducida,atributosIntroducidos);
 
     }
 
     private String obtenerEntidad() {
+
         Scanner sc = new Scanner(System.in);
+
         while (true) {
             System.out.println("Introduce la entidad de la que quieres realizar la consulta");
+            entidadesFinales.escribirlista();
             String entidadIntroducida = sc.next();
             if (existeEntidad(entidadIntroducida)) {
                 return entidadIntroducida;
@@ -44,7 +48,7 @@ class GestorDeConsultas {
         }
     }
 
-    private ArrayList<String> obtenerAtributos(String entidadIntroducida) {
+    /*private ArrayList<String> obtenerAtributos(String entidadIntroducida) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("Introduce los atributos separados con comas o un asterisco si quieres todos");
@@ -68,7 +72,7 @@ class GestorDeConsultas {
             System.out.println("Lista de atributos:");
             this.listarAtributos(entidadIntroducida);
         }
-    }
+    }*/
 
     private boolean existeEntidad(String entidad) {
         if (entidadesFinales.entidadesfinales.get(entidad) != null) {
