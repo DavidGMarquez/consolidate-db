@@ -13,7 +13,7 @@ class Main
         GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "root", "root");
         GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "root", "root");
         GeneradorMapeados mapeado=new GeneradorMapeados(entidades1.getEntidades(),entidades2.getEntidades());
-        mapeado.entidadesFinales.escribir();
+        mapeado.entidadesFinales.escribirlistaConAtributos();
         GestorDeConsultas gestorDeConsultas=new GestorDeConsultas(entidades1.getEntidades(),entidades2.getEntidades(),mapeado.getEntidadesFinales());
         gestorDeConsultas.realizarConsulta();
         //Obtener resultado global
