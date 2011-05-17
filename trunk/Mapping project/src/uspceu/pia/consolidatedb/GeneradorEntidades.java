@@ -14,11 +14,11 @@ import java.util.logging.Logger;
  *
  * @author enrique
  */
-public class CrearEntidades {
+public class GeneradorEntidades {
 
     Entidades entidades;
 
-    public CrearEntidades(String nombre, String usuario, String pass) {
+    public GeneradorEntidades(String nombre, String usuario, String pass) {
         String nombre_schema = nombre;
         String user = usuario;
         String password = pass;
@@ -67,7 +67,7 @@ public class CrearEntidades {
                     atributostabla.put(rs2.getString(1), atributo);
                 }
                 Entidad entidad = new Entidad(rs.getString(1), atributostabla, key);
-                entidades.entidades.add(entidad);
+                entidades.entidades.put(entidad.getName(),entidad);
             }
 
 
@@ -75,8 +75,13 @@ public class CrearEntidades {
 
 
         } catch (SQLException ex) {
-            Logger.getLogger(CrearEntidades.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GeneradorEntidades.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
+    public Entidades getEntidades() {
+        return entidades;
+    }
+    
 }

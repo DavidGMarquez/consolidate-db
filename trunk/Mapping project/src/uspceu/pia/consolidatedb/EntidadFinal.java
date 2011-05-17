@@ -23,6 +23,7 @@ public class EntidadFinal {
     protected HashMap<String, String> mapeoAtributosFinalesAtributos1;
     protected HashMap<String, String> mapeoAtributosFinalesAtributos2;
     protected ArrayList<String> atributosFinales;
+    protected String final_name;
     protected boolean dual;
 
     EntidadFinal(String name_map_1, String name_map_2, String key_1, String key_2, HashMap<String, Atributo> atributos1, HashMap<String, Atributo> atributos2, boolean dual) {
@@ -64,11 +65,15 @@ public class EntidadFinal {
 
     private void procesar() {
 
-        if (this.dual) //Encontrar correspondencia entre atributos
+        if (this.dual) //Encontrar correspondencia entre atributos tambien elegir nombre de la entidad
         {
-            throw new UnsupportedOperationException("Not yet implemented");
         } else {
             //Copiar los atributos 1
         }
     }
+
+    public String getFinal_name() {
+        return final_name;
+    }
+    
 }

@@ -5,17 +5,17 @@
 
 package uspceu.pia.consolidatedb;
 
-class Main
+class MainPruebaCohete
 {
     public static void main(String[] args)
     {
-       
-        GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "pia", "pia");
+   GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "pia", "pia");
         GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "pia", "pia");
         GeneradorMapeados mapeado=new GeneradorMapeados(entidades1.getEntidades(),entidades2.getEntidades());
         mapeado.entidadesFinales.Escribir();
         GestorDeConsultas gestorDeConsultas=new GestorDeConsultas(entidades1.getEntidades(),entidades2.getEntidades(),mapeado.getEntidadesFinales());
         gestorDeConsultas.realizarConsulta();
+
         //Obtener resultado global
         
     }
