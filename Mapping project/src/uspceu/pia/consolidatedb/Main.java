@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package javaapplication1;
+package uspceu.pia.consolidatedb;
 
 class Main
 {
@@ -14,6 +14,9 @@ class Main
         CrearEntidades entidades2 = new CrearEntidades("piaDbaux", "pia", "pia");
         CrearMapeados mapeado=new CrearMapeados(entidades1,entidades2);
         mapeado.entidadesFinales.Escribir();
+        GestorDeConsultas gestorDeConsultas=new GestorDeConsultas(mapeado);
+
+
         //Obtener resultado global
         
     }
