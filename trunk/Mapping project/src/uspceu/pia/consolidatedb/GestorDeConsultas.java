@@ -32,7 +32,12 @@ class GestorDeConsultas {
         String entidadIntroducida = this.obtenerEntidad();
         ArrayList<String> atributosIntroducidos = this.obtenerAtributos(entidadIntroducida);
         String consultaSQL = this.generarConsulta(entidadIntroducida, atributosIntroducidos);
-        this.ejecutarConsulta(consultaSQL, "pia", "pia");
+        ResultSet rs = this.ejecutarConsulta(consultaSQL, "pia", "pia");
+        if (rs != null) {
+            procesarSalida(rs, entidadIntroducida, atributosIntroducidos);
+        } else {
+            System.out.println("Error en la consulta");
+        }
 
     }
 
@@ -129,7 +134,7 @@ class GestorDeConsultas {
         return sql;
     }
 
-    private void ejecutarConsulta(String consultaSQL, String user, String password) {
+    private ResultSet ejecutarConsulta(String consultaSQL, String user, String password) {
         Connection conexion = null;
         try {
             conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/", user, password);
@@ -144,8 +149,79 @@ class GestorDeConsultas {
         }
         try {
             ResultSet rs = s.executeQuery(consultaSQL);
+            return rs;
         } catch (SQLException ex) {
             Logger.getLogger(GestorDeConsultas.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return null;
+    }
+
+    private void procesarSalida(ResultSet rs, String entidadIntroducida, ArrayList<String> atributosIntroducidos) {
+        System.out.println("Consulta sobre la entidad " + entidadIntroducida);
+        try {
+            while (rs.next()) {
+                for (String atributoFinal : atributosIntroducidos) {
+                    System.out.print("Atributo:" + atributoFinal);
+                    String tipoAtributo1 = obtenerTipo(atributoFinal, entidadIntroducida, 1);
+                    String tipoAtributo2 = obtenerTipo(atributoFinal, entidadIntroducida, 2);
+                    if (tipoAtributo1.compareTo(tipoAtributo2) != 0) {
+                        System.out.println(toStringAtributo(rs, tipoAtributo1, atributoFinal, 1));
+                        System.out.println(toStringAtributo(rs, tipoAtributo2, atributoFinal, 2));
+                    } else {
+                        toStringDosAtributos(rs, tipoAtributo1, atributoFinal);
+                    }
+                    System.out.println("");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestorDeConsultas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private String obtenerTipo(String atributo, String entidad, int db) {
+        EntidadFinal entidadfinal = this.entidadesFinales.entidadesfinales.get(entidad);
+        String atributo1 = entidadfinal.mapeoAtributosFinalesAtributos1.get(atributo);
+        if (db == 1) {
+            if (atributo1 != null) {
+                return entidadfinal.atributos1.get(atributo1).type;
+            }
+        }
+        if (db == 2) {
+            String atributo2 = entidadfinal.mapeoAtributosFinalesAtributos2.get(atributo);
+            if (atributo2 != null) {
+                return entidadfinal.atributos2.get(atributo2).type;
+            }
+        }
+        return null;
+    }
+
+    private String toStringAtributo(ResultSet rs, String tipoAtributo, String atributoFinal, int i) {
+        if (tipoAtributo.contains("varchar")) {
+            try {
+                return (rs.getString(atributoFinal + i));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestorDeConsultas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (tipoAtributo.contains("int")) {
+            try {
+
+                return (Integer.toString(rs.getInt(new String(atributoFinal + i))));
+            } catch (SQLException ex) {
+                Logger.getLogger(GestorDeConsultas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return "-*-";
+
+    }
+
+    private String toStringDosAtributos(ResultSet rs, String tipoAtributo, String atributoFinal) {
+        String atributo1=toStringAtributo(rs, tipoAtributo, atributoFinal, 1);
+        String atributo2=toStringAtributo(rs, tipoAtributo, atributoFinal, 2);
+        if(atributo1.compareTo(atributo2)!=0){
+            return atributo1+" / "+atributo2;
+        }
+        return atributo1;
     }
 }
