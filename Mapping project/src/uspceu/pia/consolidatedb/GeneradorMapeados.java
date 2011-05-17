@@ -41,6 +41,7 @@ class GeneradorMapeados {
                             this.entidades1.remove(nameEntidad1);
                             this.entidades2.remove(nameEntidad2);
                         }
+                       
                     } catch (IOException ex) {
                         Logger.getLogger(GeneradorMapeados.class.getName()).log(Level.SEVERE, null, ex);
                     }

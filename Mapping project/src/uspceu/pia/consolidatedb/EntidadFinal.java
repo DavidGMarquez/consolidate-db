@@ -4,9 +4,13 @@
  */
 package uspceu.pia.consolidatedb;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -80,9 +84,36 @@ public class EntidadFinal {
 
         if (this.dual) //Encontrar correspondencia entre atributos tambien elegir nombre de la entidad
         {
-            this.final_name = name_map_1;
+            this.final_name = name_map_1;            
+            for (String nameAtributo1 : this.atributos1.keySet()) {
+                for (String nameAtributo2 : this.atributos2.keySet()) {
+                    if (0 == nameAtributo1.compareTo(nameAtributo2)) {
+                        System.out.println("Atributo: " + nameAtributo1 + " " + nameAtributo2);
+                        System.out.println("¿ Es correcto este mapeado de atributos ? (pulse tecla 's' si esta correcto)");
+                        Scanner sc = new Scanner(System.in);
+                        String caracter = sc.next();
+                        if (0 == caracter.compareTo("s")) {
+                            System.out.println("El atributo tendra el nombre de: " + nameAtributo1);
+                            this.atributosFinales.add(nameAtributo1);
+                            this.mapeoAtributosFinalesAtributos1.put(nameAtributo1, nameAtributo1);
+                            this.mapeoAtributosFinalesAtributos2.put(nameAtributo1, nameAtributo2);                         
+                        }
+                    }
+                }
+            }
+            /*for (String nameAtributo1 : this.atributos1.keySet()) {
+                this.atributosFinales.add(nameAtributo1);
+                this.mapeoAtributosFinalesAtributos1.put(nameAtributo1, nameAtributo1);
+                this.mapeoAtributosFinalesAtributos2.put(nameAtributo1, null);
+            }
+            for (String nameAtributo2 : this.atributos2.keySet()) {
+                this.atributosFinales.add(nameAtributo2);
+                this.mapeoAtributosFinalesAtributos1.put(nameAtributo2, null);
+                this.mapeoAtributosFinalesAtributos2.put(nameAtributo2, nameAtributo2);
+            }*/
+
         } else {
-            //Copiar los atributos 1
+            this.final_name = name_map_1;
         }
     }
 
@@ -90,11 +121,10 @@ public class EntidadFinal {
         return final_name;
     }
 
-    private void listarAtributosFinales(){
-        for(String atributo:atributosFinales){
-            System.out.print(atributo+" ");
+    public void listarAtributosFinales() {
+        for (String atributo : atributosFinales) {
+            System.out.print(atributo + " ");
         }
         System.out.println("");
     }
-    
 }

@@ -13,7 +13,7 @@ class MainPruebaCohete
         GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "pia", "pia");
         GeneradorMapeados mapeado=new GeneradorMapeados(entidades1.getEntidades(),entidades2.getEntidades());
         System.out.println("---------");
-        mapeado.entidadesFinales.escribir();
+        mapeado.entidadesFinales.escribirlistaConAtributos();
         GestorDeConsultas gestorDeConsultas=new GestorDeConsultas(entidades1.getEntidades(),entidades2.getEntidades(),mapeado.getEntidadesFinales());
         gestorDeConsultas.realizarConsulta();
 
