@@ -35,8 +35,18 @@ public class EntidadesFinales {
 
     public void escribirlistaConAtributos() {
         for (String nombre : entidadesfinales.keySet()) {
-            System.out.print(nombre+": ");
+            System.out.print(nombre+":\n ");
             entidadesfinales.get(nombre).listarAtributosFinales();
+            entidadesfinales.get(nombre).listarAtributosFinales();
+        }
+        System.out.println("");
+    }
+
+    public void escribirlistaConAtributosFinales() {
+        for (String nombre : entidadesfinales.keySet()) {
+            System.out.print(nombre+":\n ");
+            entidadesfinales.get(nombre).listarAtributosFinalesMapeados();
+
         }
         System.out.println("");
     }
