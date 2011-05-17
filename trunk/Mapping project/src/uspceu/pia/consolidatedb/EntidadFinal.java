@@ -88,7 +88,7 @@ public class EntidadFinal {
             HashMap<String, Atributo> atributos2_temporal = new HashMap<String, Atributo>();
             atributos1_temporal.putAll(this.atributos1);
             atributos2_temporal.putAll(this.atributos2);
-            this.final_name = name_map_1;            
+            this.final_name = name_map_1;
             for (String nameAtributo1 : this.atributos1.keySet()) {
                 for (String nameAtributo2 : this.atributos2.keySet()) {
                     if (0 == nameAtributo1.compareTo(nameAtributo2)) {
@@ -138,5 +138,30 @@ public class EntidadFinal {
             System.out.print(atributo + " ");
         }
         System.out.println("");
+    }
+
+    public void listarAtributosFinalesMapeados() {
+        String valor = "";
+
+        for (String atributo : this.mapeoAtributosFinalesAtributos1.keySet()) {
+
+            if (this.mapeoAtributosFinalesAtributos1.get(atributo) == null) {
+                valor = "null";
+            } else {
+                valor = this.mapeoAtributosFinalesAtributos1.get(atributo);
+            }
+            System.out.print("nombre mapeado:" + atributo + " nombre real: " + valor + "\n");
+        }
+        if(dual){
+        for (String atributo : this.mapeoAtributosFinalesAtributos2.keySet()) {
+
+            if (this.mapeoAtributosFinalesAtributos2.get(atributo) == null) {
+                valor = "null";
+            } else {
+                valor = this.mapeoAtributosFinalesAtributos2.get(atributo);
+            }
+            System.out.print("nombre mapeado:" + atributo + " nombre real: " + valor + "\n");
+        }
+        }
     }
 }
