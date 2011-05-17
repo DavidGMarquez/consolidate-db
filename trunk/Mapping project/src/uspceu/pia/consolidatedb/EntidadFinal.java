@@ -84,6 +84,10 @@ public class EntidadFinal {
 
         if (this.dual) //Encontrar correspondencia entre atributos tambien elegir nombre de la entidad
         {
+            HashMap<String, Atributo> atributos1_temporal = new HashMap<String, Atributo>();
+            HashMap<String, Atributo> atributos2_temporal = new HashMap<String, Atributo>();
+            atributos1_temporal.putAll(this.atributos1);
+            atributos2_temporal.putAll(this.atributos2);
             this.final_name = name_map_1;            
             for (String nameAtributo1 : this.atributos1.keySet()) {
                 for (String nameAtributo2 : this.atributos2.keySet()) {
@@ -96,24 +100,32 @@ public class EntidadFinal {
                             System.out.println("El atributo tendra el nombre de: " + nameAtributo1);
                             this.atributosFinales.add(nameAtributo1);
                             this.mapeoAtributosFinalesAtributos1.put(nameAtributo1, nameAtributo1);
-                            this.mapeoAtributosFinalesAtributos2.put(nameAtributo1, nameAtributo2);                         
+                            this.mapeoAtributosFinalesAtributos2.put(nameAtributo1, nameAtributo2);
+                            atributos1_temporal.remove(nameAtributo1);
+                            atributos2_temporal.remove(nameAtributo2);
                         }
                     }
                 }
+
+
             }
-            /*for (String nameAtributo1 : this.atributos1.keySet()) {
+            for (String nameAtributo1 : atributos1_temporal.keySet()) {
                 this.atributosFinales.add(nameAtributo1);
                 this.mapeoAtributosFinalesAtributos1.put(nameAtributo1, nameAtributo1);
                 this.mapeoAtributosFinalesAtributos2.put(nameAtributo1, null);
             }
-            for (String nameAtributo2 : this.atributos2.keySet()) {
+            for (String nameAtributo2 : atributos2_temporal.keySet()) {
                 this.atributosFinales.add(nameAtributo2);
                 this.mapeoAtributosFinalesAtributos1.put(nameAtributo2, null);
                 this.mapeoAtributosFinalesAtributos2.put(nameAtributo2, nameAtributo2);
-            }*/
+            }
 
         } else {
             this.final_name = name_map_1;
+            for (String nameAtributo1 : this.atributos1.keySet()) {
+                this.atributosFinales.add(nameAtributo1);
+                this.mapeoAtributosFinalesAtributos1.put(nameAtributo1, nameAtributo1);
+            }
         }
     }
 
