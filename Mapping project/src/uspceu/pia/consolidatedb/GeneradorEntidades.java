@@ -67,7 +67,7 @@ public class GeneradorEntidades {
                     atributostabla.put(rs2.getString(1), atributo);
                 }
                 Entidad entidad = new Entidad(rs.getString(1), atributostabla, key);
-                entidades.entidades.put(entidad.getName(),entidad);
+                entidades.entidades.put(entidad.getName(), entidad);
             }
 
 
@@ -83,5 +83,4 @@ public class GeneradorEntidades {
     public Entidades getEntidades() {
         return entidades;
     }
-    
 }

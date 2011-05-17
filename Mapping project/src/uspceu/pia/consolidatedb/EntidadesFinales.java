@@ -21,10 +21,16 @@ public class EntidadesFinales {
 
     }
 
-    public void Escribir() {
+    public void escribir() {
         for (String nombre : entidadesfinales.keySet()) {
             this.entidadesfinales.get(nombre).escribir();
         }
+    }
+    public void escribirlista() {
+        for (String nombre : entidadesfinales.keySet()) {
+            System.out.print(nombre);
+        }
+        System.out.println("");
     }
 }
 

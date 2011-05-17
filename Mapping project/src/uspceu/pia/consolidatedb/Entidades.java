@@ -23,7 +23,7 @@ public class Entidades {
 
     }
 
-    public void Escribir() {
+    public void escribir() {
         for (String nameEntidad : entidades.keySet()) {
             this.entidades.get(nameEntidad).escribir();
         }

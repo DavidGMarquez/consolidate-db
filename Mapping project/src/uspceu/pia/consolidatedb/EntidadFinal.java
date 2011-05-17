@@ -67,6 +67,7 @@ public class EntidadFinal {
 
         if (this.dual) //Encontrar correspondencia entre atributos tambien elegir nombre de la entidad
         {
+            this.final_name=name_map_1;
         } else {
             //Copiar los atributos 1
         }
