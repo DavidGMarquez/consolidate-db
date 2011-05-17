@@ -76,5 +76,11 @@ public class EntidadFinal {
     public String getFinal_name() {
         return final_name;
     }
+    private void listarAtributosFinales(){
+        for(String atributo:atributosFinales){
+            System.out.print(atributo+" ");
+        }
+        System.out.println("");
+    }
     
 }
