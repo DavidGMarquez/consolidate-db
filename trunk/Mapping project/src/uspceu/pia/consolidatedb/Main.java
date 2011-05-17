@@ -10,8 +10,8 @@ class Main
     public static void main(String[] args)
     {
        
-        GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "pia", "pia");
-        GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "pia", "pia");
+        GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "root", "root");
+        GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "root", "root");
         GeneradorMapeados mapeado=new GeneradorMapeados(entidades1.getEntidades(),entidades2.getEntidades());
         mapeado.entidadesFinales.escribir();
         GestorDeConsultas gestorDeConsultas=new GestorDeConsultas(entidades1.getEntidades(),entidades2.getEntidades(),mapeado.getEntidadesFinales());

@@ -38,6 +38,8 @@ class GeneradorMapeados {
                         if (caracter == 's') {
                             System.out.println("Creando el mapping... ");
                             this.crearEntidadFinalDoble(nameEntidad1, nameEntidad2);
+                            this.entidades1.remove(nameEntidad1);
+                            this.entidades2.remove(nameEntidad2);
                         }
                     } catch (IOException ex) {
                         Logger.getLogger(GeneradorMapeados.class.getName()).log(Level.SEVERE, null, ex);
@@ -45,6 +47,12 @@ class GeneradorMapeados {
 
                 }
             }
+        }
+        for (String nameEntidad1 : this.entidades1.keySet()) {
+        this.crearEntidadFinalSimple(nameEntidad1);
+        }
+        for (String nameEntidad2 : this.entidades2.keySet()) {
+        this.crearEntidadFinalSimple(nameEntidad2);
         }
     }
 
@@ -57,11 +65,21 @@ class GeneradorMapeados {
         this.entidadesFinales.entidadesfinales.put(e.final_name, e);
     }
 
+    private void crearEntidadFinalSimple(String nameEntidad1) {
+        HashMap<String, Atributo> atributos1 = new HashMap<String, Atributo>();
+        atributos1.putAll(this.entidades1.get(nameEntidad1).atributos);
+        EntidadFinal e = new EntidadFinal(this.entidades1.get(nameEntidad1).name,this.entidades1.get(nameEntidad1).key, atributos1, false);
+        this.entidadesFinales.entidadesfinales.put(e.final_name, e);
+
+    }
+
     public EntidadesFinales getEntidadesFinales() {
         return entidadesFinales;
 
 
     }
+
+    
 }
 
 
