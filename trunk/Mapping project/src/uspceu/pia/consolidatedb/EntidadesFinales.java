@@ -28,7 +28,7 @@ public class EntidadesFinales {
     }
     public void escribirlista() {
         for (String nombre : entidadesfinales.keySet()) {
-            System.out.print(nombre);
+            System.out.print(nombre+" ");
         }
         System.out.println("");
     }
