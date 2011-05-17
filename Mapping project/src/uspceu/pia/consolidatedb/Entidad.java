@@ -40,4 +40,9 @@ public class Entidad {
         //}
     }
 
+    public String getName() {
+        return name;
+    }
+    
+
 }

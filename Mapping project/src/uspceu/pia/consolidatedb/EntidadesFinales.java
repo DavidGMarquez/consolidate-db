@@ -5,6 +5,7 @@
 package uspceu.pia.consolidatedb;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -12,17 +13,18 @@ import java.util.ArrayList;
  */
 public class EntidadesFinales {
 
-    protected ArrayList<EntidadFinal> entidadesfinales;
+    protected HashMap<String, EntidadFinal> entidadesfinales;
 
     public EntidadesFinales() {
 
-        this.entidadesfinales = new ArrayList();
+        this.entidadesfinales = new HashMap<String, EntidadFinal>();
 
     }
 
     public void Escribir() {
-        for (int i = 0; i < this.entidadesfinales.size(); i++) {
-            this.entidadesfinales.get(i).escribir();
+        for (String nombre : entidadesfinales.keySet()) {
+            this.entidadesfinales.get(nombre).escribir();
         }
     }
 }
+
