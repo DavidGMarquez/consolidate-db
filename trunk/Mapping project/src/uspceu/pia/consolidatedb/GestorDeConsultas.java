@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 class GestorDeConsultas {
 
-    boolean debug=false;
+    boolean debug = false;
     Entidades entidades1;
     Entidades entidades2;
     EntidadesFinales entidadesFinales;
@@ -101,37 +101,58 @@ class GestorDeConsultas {
     }
 
     private String generarConsulta(String entidadIntroducida, ArrayList<String> atributosIntroducidos) {
-        Entidad entidad1 = entidades1.entidades.get(entidadesFinales.entidadesfinales.get(entidadIntroducida).name_map_1);
-        Entidad entidad2 = entidades2.entidades.get(entidadesFinales.entidadesfinales.get(entidadIntroducida).name_map_2);
         EntidadFinal entidadFinal = entidadesFinales.entidadesfinales.get(entidadIntroducida);
+        Entidad entidad1 = entidades1.entidades.get(entidadesFinales.entidadesfinales.get(entidadIntroducida).name_map_1);
         String tabla1 = entidades1.nombre_schema + "." + entidad1.name;
-        String tabla2 = entidades2.nombre_schema + "." + entidad2.name;
         String claveTabla1 = entidades1.nombre_schema + "." + entidad1.name + "." + entidad1.key;
-        String claveTabla2 = entidades2.nombre_schema + "." + entidad2.name + "." + entidad2.key;
         ArrayList<String> atributosFinales = new ArrayList<String>(this.entidadesFinales.entidadesfinales.get(entidadIntroducida).atributosFinales);
-        String atributos = "";
-        for (String atributoFinal : atributosFinales) {
-            String atributo1 = entidadFinal.mapeoAtributosFinalesAtributos1.get(atributoFinal);
-            String atributo2 = entidadFinal.mapeoAtributosFinalesAtributos2.get(atributoFinal);
-            if (atributo1 != null) {
-                atributos = atributos.concat(tabla1 + "." + atributo1 + " as " + atributoFinal + "1 ,");
+        String sql="";
+        if (entidadesFinales.entidadesfinales.get(entidadIntroducida).name_map_2 == null) {
+            if (debug) {
+                System.out.println("Entidad FinalSimple");}
+                 String atributos = "";
+            for (String atributoFinal : atributosFinales) {
+                String atributo1 = entidadFinal.mapeoAtributosFinalesAtributos1.get(atributoFinal);
+                if (atributo1 != null) {
+                    atributos = atributos.concat(tabla1 + "." + atributo1 + " as " + atributoFinal + "1 ,");
+                }
             }
-            if (atributo2 != null) {
-                atributos = atributos.concat(tabla2 + "." + atributo2 + " as " + atributoFinal + "2 ,");
+            atributos = atributos.substring(0, atributos.length() - 1);
+            sql = "select " + atributos + " from " + tabla1+";";
+
+
+        } else {
+            Entidad entidad2 = entidades2.entidades.get(entidadesFinales.entidadesfinales.get(entidadIntroducida).name_map_2);
+            String tabla2 = entidades2.nombre_schema + "." + entidad2.name;
+            String claveTabla2 = entidades2.nombre_schema + "." + entidad2.name + "." + entidad2.key;
+            String atributos = "";
+            for (String atributoFinal : atributosFinales) {
+                String atributo1 = entidadFinal.mapeoAtributosFinalesAtributos1.get(atributoFinal);
+                String atributo2 = entidadFinal.mapeoAtributosFinalesAtributos2.get(atributoFinal);
+                if (atributo1 != null) {
+                    atributos = atributos.concat(tabla1 + "." + atributo1 + " as " + atributoFinal + "1 ,");
+                }
+                if (atributo2 != null) {
+                    atributos = atributos.concat(tabla2 + "." + atributo2 + " as " + atributoFinal + "2 ,");
+                }
             }
+            atributos = atributos.substring(0, atributos.length() - 1);
+
+
+
+
+            sql = "select " + atributos + " from " + tabla1 + " left outer join " + tabla2 + " on "
+                    + claveTabla1 + "=" + claveTabla2
+                    + " union "
+                    + "select " + atributos + " from " + tabla1 + " right outer join " + tabla2 + " on "
+                    + claveTabla1 + "=" + claveTabla2 + ";";
         }
-        atributos = atributos.substring(0, atributos.length() - 1);
-
-
-
-
-        String sql = "select " + atributos + " from " + tabla1 + " left outer join " + tabla2 + " on "
-                + claveTabla1 + "=" + claveTabla2
-                + " union "
-                + "select "+atributos+" from " + tabla1 + " right outer join " + tabla2 + " on "
-                + claveTabla1 + "=" + claveTabla2 + ";";
-        System.out.println("Consulta:");
-        System.out.println(sql);
+        if (debug) {
+            System.out.println("Consulta:");
+        }
+        if (debug) {
+            System.out.println(sql);
+        }
         return sql;
     }
 
@@ -160,31 +181,39 @@ class GestorDeConsultas {
 
     private void procesarSalida(ResultSet rs, String entidadIntroducida, ArrayList<String> atributosIntroducidos) {
         System.out.println("Consulta sobre la entidad " + entidadIntroducida);
+        System.out.println("__________________________________");
+        System.out.println("==================================");
         try {
             while (rs.next()) {
                 for (String atributoFinal : atributosIntroducidos) {
-                    System.out.print("Atributo:" + atributoFinal+" ");
+                    System.out.print("Atributo:" + atributoFinal + " ");
                     String tipoAtributo1 = obtenerTipo(atributoFinal, entidadIntroducida, 1);
                     String tipoAtributo2 = obtenerTipo(atributoFinal, entidadIntroducida, 2);
-                    String salidaImprimir="-@-";
-                    if(tipoAtributo1==null){
-                       if(debug) System.out.println("#Tipo 1 null#");
-                        salidaImprimir=toStringAtributo(rs, tipoAtributo2, atributoFinal, 2);
-                    }
-                    else if(tipoAtributo2==null){
-                       if(debug) System.out.println("#Tipo 2 null#");
-                        salidaImprimir=toStringAtributo(rs, tipoAtributo1, atributoFinal, 1);
-                    }
-                    else if (tipoAtributo1.compareTo(tipoAtributo2) != 0) {
-                      if(debug)  System.out.println("#Tipos Iguales#");
-                        salidaImprimir=toStringAtributo(rs, tipoAtributo1, atributoFinal, 1);
-                        salidaImprimir=toStringAtributo(rs, tipoAtributo2, atributoFinal, 2);
+                    String salidaImprimir = "-@-";
+                    if (tipoAtributo1 == null) {
+                        if (debug) {
+                            System.out.println("#Tipo 1 null#");
+                        }
+                        salidaImprimir = toStringAtributo(rs, tipoAtributo2, atributoFinal, 2);
+                    } else if (tipoAtributo2 == null) {
+                        if (debug) {
+                            System.out.println("#Tipo 2 null#");
+                        }
+                        salidaImprimir = toStringAtributo(rs, tipoAtributo1, atributoFinal, 1);
+                    } else if (tipoAtributo1.compareTo(tipoAtributo2) != 0) {
+                        if (debug) {
+                            System.out.println("#Tipos Iguales#");
+                        }
+                        salidaImprimir = toStringAtributo(rs, tipoAtributo1, atributoFinal, 1);
+                        salidaImprimir = toStringAtributo(rs, tipoAtributo2, atributoFinal, 2);
                     } else {
-                     if(debug)   System.out.println("#Atributos Iguales#");
-                        salidaImprimir=toStringDosAtributos(rs, tipoAtributo1, atributoFinal);
+                        if (debug) {
+                            System.out.println("#Atributos Iguales#");
+                        }
+                        salidaImprimir = toStringDosAtributos(rs, tipoAtributo1, atributoFinal);
                     }
                     System.out.println(salidaImprimir);
-                    
+
                 }
                 System.out.println("-------------------");
             }
@@ -202,6 +231,8 @@ class GestorDeConsultas {
             }
         }
         if (db == 2) {
+            if(entidadfinal.mapeoAtributosFinalesAtributos2==null)
+                return null;
             String atributo2 = entidadfinal.mapeoAtributosFinalesAtributos2.get(atributo);
             if (atributo2 != null) {
                 return entidadfinal.atributos2.get(atributo2).type;
@@ -211,7 +242,7 @@ class GestorDeConsultas {
     }
 
     private String toStringAtributo(ResultSet rs, String tipoAtributo, String atributoFinal, int i) {
-        if(tipoAtributo==null){
+        if (tipoAtributo == null) {
             return "-Null-";
         }
         if (tipoAtributo.contains("varchar")) {
@@ -233,18 +264,22 @@ class GestorDeConsultas {
     }
 
     private String toStringDosAtributos(ResultSet rs, String tipoAtributo, String atributoFinal) {
-        String atributo1=toStringAtributo(rs, tipoAtributo, atributoFinal, 1);
-        String atributo2=toStringAtributo(rs, tipoAtributo, atributoFinal, 2);
-        if(debug)System.out.println("Comparando Atributos "+atributo1+" "+atributo2);
-        if(atributo1==null&&atributo2==null){
+        String atributo1 = toStringAtributo(rs, tipoAtributo, atributoFinal, 1);
+        String atributo2 = toStringAtributo(rs, tipoAtributo, atributoFinal, 2);
+        if (debug) {
+            System.out.println("Comparando Atributos " + atributo1 + " " + atributo2);
+        }
+        if (atributo1 == null && atributo2 == null) {
             return "-¿?-";
         }
-        if(atributo1==null)
+        if (atributo1 == null) {
             return atributo2;
-        if(atributo2==null)
+        }
+        if (atributo2 == null) {
             return atributo1;
-        if(atributo1.compareTo(atributo2)!=0){
-            return atributo1+" / "+atributo2;
+        }
+        if (atributo1.compareTo(atributo2) != 0) {
+            return atributo1 + " / " + atributo2;
         }
         return atributo1;
     }
