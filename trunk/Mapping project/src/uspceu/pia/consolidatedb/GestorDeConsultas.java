@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  */
 class GestorDeConsultas {
 
+    boolean debug=false;
     Entidades entidades1;
     Entidades entidades2;
     EntidadesFinales entidadesFinales;
@@ -127,7 +128,7 @@ class GestorDeConsultas {
         String sql = "select " + atributos + " from " + tabla1 + " left outer join " + tabla2 + " on "
                 + claveTabla1 + "=" + claveTabla2
                 + " union "
-                + "select * from " + tabla1 + " right outer join " + tabla2 + " on "
+                + "select "+atributos+" from " + tabla1 + " right outer join " + tabla2 + " on "
                 + claveTabla1 + "=" + claveTabla2 + ";";
         System.out.println("Consulta:");
         System.out.println(sql);
@@ -162,17 +163,30 @@ class GestorDeConsultas {
         try {
             while (rs.next()) {
                 for (String atributoFinal : atributosIntroducidos) {
-                    System.out.print("Atributo:" + atributoFinal);
+                    System.out.print("Atributo:" + atributoFinal+" ");
                     String tipoAtributo1 = obtenerTipo(atributoFinal, entidadIntroducida, 1);
                     String tipoAtributo2 = obtenerTipo(atributoFinal, entidadIntroducida, 2);
-                    if (tipoAtributo1.compareTo(tipoAtributo2) != 0) {
-                        System.out.println(toStringAtributo(rs, tipoAtributo1, atributoFinal, 1));
-                        System.out.println(toStringAtributo(rs, tipoAtributo2, atributoFinal, 2));
-                    } else {
-                        toStringDosAtributos(rs, tipoAtributo1, atributoFinal);
+                    String salidaImprimir="-@-";
+                    if(tipoAtributo1==null){
+                       if(debug) System.out.println("#Tipo 1 null#");
+                        salidaImprimir=toStringAtributo(rs, tipoAtributo2, atributoFinal, 2);
                     }
-                    System.out.println("");
+                    else if(tipoAtributo2==null){
+                       if(debug) System.out.println("#Tipo 2 null#");
+                        salidaImprimir=toStringAtributo(rs, tipoAtributo1, atributoFinal, 1);
+                    }
+                    else if (tipoAtributo1.compareTo(tipoAtributo2) != 0) {
+                      if(debug)  System.out.println("#Tipos Iguales#");
+                        salidaImprimir=toStringAtributo(rs, tipoAtributo1, atributoFinal, 1);
+                        salidaImprimir=toStringAtributo(rs, tipoAtributo2, atributoFinal, 2);
+                    } else {
+                     if(debug)   System.out.println("#Atributos Iguales#");
+                        salidaImprimir=toStringDosAtributos(rs, tipoAtributo1, atributoFinal);
+                    }
+                    System.out.println(salidaImprimir);
+                    
                 }
+                System.out.println("-------------------");
             }
         } catch (SQLException ex) {
             Logger.getLogger(GestorDeConsultas.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,6 +211,9 @@ class GestorDeConsultas {
     }
 
     private String toStringAtributo(ResultSet rs, String tipoAtributo, String atributoFinal, int i) {
+        if(tipoAtributo==null){
+            return "-Null-";
+        }
         if (tipoAtributo.contains("varchar")) {
             try {
                 return (rs.getString(atributoFinal + i));
@@ -206,8 +223,7 @@ class GestorDeConsultas {
         }
         if (tipoAtributo.contains("int")) {
             try {
-
-                return (Integer.toString(rs.getInt(new String(atributoFinal + i))));
+                return ((rs.getString(new String(atributoFinal + i))));
             } catch (SQLException ex) {
                 Logger.getLogger(GestorDeConsultas.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -219,6 +235,14 @@ class GestorDeConsultas {
     private String toStringDosAtributos(ResultSet rs, String tipoAtributo, String atributoFinal) {
         String atributo1=toStringAtributo(rs, tipoAtributo, atributoFinal, 1);
         String atributo2=toStringAtributo(rs, tipoAtributo, atributoFinal, 2);
+        if(debug)System.out.println("Comparando Atributos "+atributo1+" "+atributo2);
+        if(atributo1==null&&atributo2==null){
+            return "-¿?-";
+        }
+        if(atributo1==null)
+            return atributo2;
+        if(atributo2==null)
+            return atributo1;
         if(atributo1.compareTo(atributo2)!=0){
             return atributo1+" / "+atributo2;
         }

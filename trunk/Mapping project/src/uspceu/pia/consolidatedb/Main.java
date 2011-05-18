@@ -10,8 +10,8 @@ class Main
     public static void main(String[] args)
     {
        
-        GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "root", "root");
-        GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "root", "root");
+        GeneradorEntidades entidades1 = new GeneradorEntidades("piadb", "pia", "pia");
+        GeneradorEntidades entidades2 = new GeneradorEntidades("piaDbaux", "pia", "pia");
         GeneradorMapeados mapeado=new GeneradorMapeados(entidades1.getEntidades(),entidades2.getEntidades());
 
         //con esta linea vemos los atributos finales de cada entidad
