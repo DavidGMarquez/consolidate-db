@@ -30,6 +30,8 @@ class GestorDeConsultas {
     }
 
     void realizarConsulta() {
+        boolean consulta=true;
+        while (consulta) {
         String entidadIntroducida = this.obtenerEntidad();
         ArrayList<String> atributosIntroducidos = this.obtenerAtributos(entidadIntroducida);
         String consultaSQL = this.generarConsulta(entidadIntroducida, atributosIntroducidos);
@@ -38,6 +40,14 @@ class GestorDeConsultas {
             procesarSalida(rs, entidadIntroducida, atributosIntroducidos);
         } else {
             System.out.println("Error en la consulta");
+        }
+            Scanner sc = new Scanner(System.in);
+
+            System.out.println("Otra consulta=[s/n]");
+            String respuesta = sc.next();
+            if(respuesta.compareTo("n")==0){
+                consulta=false;
+            }
         }
 
     }
