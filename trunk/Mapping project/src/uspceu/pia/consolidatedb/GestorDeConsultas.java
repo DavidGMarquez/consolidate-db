@@ -124,7 +124,7 @@ class GestorDeConsultas {
             for (String atributoFinal : atributosFinales) {
                 String atributo1 = entidadFinal.mapeoAtributosFinalesAtributos1.get(atributoFinal);
                 if (atributo1 != null) {
-                    atributos = atributos.concat(tabla1 + "." + atributo1 + " as " + atributoFinal + "1 ,");
+                    atributos = atributos.concat(tabla1 + ".`" + atributo1 + "` as " + atributoFinal + "1 ,");
                 }
             }
             atributos = atributos.substring(0, atributos.length() - 1);
@@ -140,10 +140,10 @@ class GestorDeConsultas {
                 String atributo1 = entidadFinal.mapeoAtributosFinalesAtributos1.get(atributoFinal);
                 String atributo2 = entidadFinal.mapeoAtributosFinalesAtributos2.get(atributoFinal);
                 if (atributo1 != null) {
-                    atributos = atributos.concat(tabla1 + "." + atributo1 + " as " + atributoFinal + "1 ,");
+                    atributos = atributos.concat(tabla1 + ".`" + atributo1 + "` as `" + atributoFinal + "1` ,");
                 }
                 if (atributo2 != null) {
-                    atributos = atributos.concat(tabla2 + "." + atributo2 + " as " + atributoFinal + "2 ,");
+                    atributos = atributos.concat(tabla2 + ".`" + atributo2 + "` as `" + atributoFinal + "2` ,");
                 }
             }
             atributos = atributos.substring(0, atributos.length() - 1);
