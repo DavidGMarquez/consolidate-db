@@ -89,9 +89,10 @@ public class EntidadFinal {
             atributos1_temporal.putAll(this.atributos1);
             atributos2_temporal.putAll(this.atributos2);
             this.final_name = name_map_1;
+            StemmEs s=new StemmEs();
             for (String nameAtributo1 : this.atributos1.keySet()) {
                 for (String nameAtributo2 : this.atributos2.keySet()) {
-                    if (0 == nameAtributo1.compareTo(nameAtributo2)) {
+                    if (0 == s.stemm(nameAtributo1).compareTo(s.stemm(nameAtributo2))) {
                         System.out.println("Atributo: " + nameAtributo1 + " " + nameAtributo2);
                         System.out.println("¿ Es correcto este mapeado de atributos ? (pulse tecla 's' si esta correcto)");
                         Scanner sc = new Scanner(System.in);
